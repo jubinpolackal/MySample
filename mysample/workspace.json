@@ -1,0 +1,155 @@
+{
+  "version": 2,
+  "projects": {
+    "demo": {
+      "root": "apps/demo/",
+      "sourceRoot": "apps/demo/src",
+      "projectType": "application",
+      "prefix": "demo",
+      "targets": {
+        "build": {
+          "executor": "@nativescript/nx:build",
+          "options": {
+            "noHmr": true,
+            "production": true,
+            "uglify": true,
+            "release": true,
+            "forDevice": true
+          }
+        },
+        "ios": {
+          "executor": "@nativescript/nx:build",
+          "options": {
+            "platform": "ios"
+          }
+        },
+        "android": {
+          "executor": "@nativescript/nx:build",
+          "options": {
+            "platform": "android"
+          }
+        },
+        "clean": {
+          "executor": "@nativescript/nx:build",
+          "options": {
+            "clean": true
+          }
+        }
+      }
+    },
+    "demo-angular": {
+      "root": "apps/demo-angular/",
+      "sourceRoot": "apps/demo-angular/src",
+      "projectType": "application",
+      "prefix": "demo",
+      "targets": {
+        "build": {
+          "executor": "@nativescript/nx:build",
+          "options": {
+            "noHmr": true,
+            "production": true,
+            "uglify": true,
+            "release": true,
+            "forDevice": true
+          }
+        },
+        "ios": {
+          "executor": "@nativescript/nx:build",
+          "options": {
+            "platform": "ios"
+          }
+        },
+        "android": {
+          "executor": "@nativescript/nx:build",
+          "options": {
+            "platform": "android"
+          }
+        },
+        "clean": {
+          "executor": "@nativescript/nx:build",
+          "options": {
+            "clean": true
+          }
+        }
+      }
+    },
+    "all": {
+      "root": "packages/",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [
+            "dist/packages"
+          ],
+          "options": {
+            "commands": [
+              "nx run mysample-plugin:build.all"
+            ],
+            "parallel": false
+          }
+        },
+        "focus": {
+          "outputs": [
+            "dist/packages"
+          ],
+          "options": {
+            "commands": [
+              "nx g @nativescript/plugin-tools:focus-packages"
+            ],
+            "parallel": false
+          },
+          "executor": "@nrwl/workspace:run-commands"
+        }
+      }
+    },
+    "mysample-plugin": {
+      "root": "packages/mysample-plugin",
+      "projectType": "library",
+      "sourceRoot": "packages/mysample-plugin",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:package",
+          "options": {
+            "outputPath": "dist/packages/mysample-plugin",
+            "tsConfig": "packages/mysample-plugin/tsconfig.json",
+            "packageJson": "packages/mysample-plugin/package.json",
+            "main": "packages/mysample-plugin/index.d.ts",
+            "assets": [
+              "packages/mysample-plugin/*.md",
+              "packages/mysample-plugin/index.d.ts",
+              "LICENSE",
+              {
+                "glob": "**/*",
+                "input": "packages/mysample-plugin/platforms/",
+                "output": "./platforms/"
+              }
+            ]
+          }
+        },
+        "build.all": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx run mysample-plugin:build",
+              "node tools/scripts/build-finish.ts mysample-plugin"
+            ],
+            "parallel": false
+          }
+        },
+        "focus": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx g @nativescript/plugin-tools:focus-packages mysample-plugin"
+            ],
+            "parallel": false
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
+  }
+}
